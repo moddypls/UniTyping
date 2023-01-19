@@ -90,42 +90,36 @@ send_uni(char)
 }
 
 a::
-A::
 {
     Send "{U+0061}"
     send_uni("a")
 }
 
 b::
-B::
 {
     Send "{U+0062}"
     send_uni("b")
 }
 
 c::
-C::
 {
     Send "{U+0063}"
     send_uni("c")
 }
 
 d::
-D::
 {
     Send "{U+0064}"
     send_uni("d")
 }
 
 e::
-E::
 {
     Send "{U+0065}"
     send_uni("e")
 }
 
 f::
-F::
 {
     Send "{U+0066}"
     send_uni("f")
