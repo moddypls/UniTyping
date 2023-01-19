@@ -5,7 +5,7 @@ listening := False
 listening_ref := &listening
 input_str := ""
 input_ref := &input_str
-counter := 2
+counter := 1
 counter_ref := &counter
 
 
@@ -134,7 +134,7 @@ Space::
         hexa .= %input_ref%
         hexa .= "}"
         %input_ref% := ""
-        %counter_ref% := 2
+        %counter_ref% := 1
         Send hexa
     }
     Send "{U+0020}"
