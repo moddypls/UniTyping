@@ -5,26 +5,16 @@ listening := False
 listening_ref := &listening
 input_str := ""
 input_ref := &input_str
-KeyHistory 10
+counter := 2
+counter_ref := &counter
+
 
 send_uni(char)
 {
     if(%listening_ref%)
     {
-        if(StrLen(%input_ref%) < 3)
-        {
             %input_ref% .= char
-        }
-        else
-        {
-            %input_ref% .= char
-            %listening_ref% := False
-            hexa := "{BS}{BS}{BS}{BS}{BS}{U+"
-            hexa .= %input_ref%
-            hexa .= "}"
-            %input_ref% := ""
-            Send hexa
-        }
+            ++%counter_ref%       
     }
 }
 
@@ -32,7 +22,7 @@ send_uni(char)
 {
     Send "{U+0025}"
     %listening_ref% := True
-    TrayTip "Press [SPACE] to cancel.", "UniTyping is now listening!"
+    TrayTip "Press [SPACE] to cancel/finish.", "UniTyping is now listening!"
 }
 
 1::
@@ -127,12 +117,39 @@ f::
 
 Space::
 {
-    Send "{U+0020}"
     if(%listening_ref%)
     {
         TrayTip
-        %listening_ref% := False
-        %input_ref% := ""
         TrayTip "", "UniTyping has stopped listening!"
+
+        hexa := ""
+
+        Loop %counter_ref%
+        {
+            hexa .= "{BS}"
+        }
+
+        %listening_ref% := False
+        hexa .= "{U+"
+        hexa .= %input_ref%
+        hexa .= "}"
+        %input_ref% := ""
+        %counter_ref% := 2
+        Send hexa
+    }
+    Send "{U+0020}"
+}
+
+$BS::
+{
+    SendInput "{BS}"
+    if(%listening_ref%)
+    {
+        len := StrLen(%input_ref%)
+        if(len>0)
+        {
+            %input_ref% := SubStr(%input_ref%, 1, len-1)
+            --%counter_ref%
+        }
     }
 }
